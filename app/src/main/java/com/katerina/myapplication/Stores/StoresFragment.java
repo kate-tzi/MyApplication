@@ -1,10 +1,12 @@
 package com.katerina.myapplication.Stores;
 
+import android.content.Intent;
 import android.os.Bundle;
 import android.support.v4.app.Fragment;
 import android.view.LayoutInflater;
 import android.view.View;
 import android.view.ViewGroup;
+import android.widget.AdapterView;
 import android.widget.ListView;
 
 import com.katerina.myapplication.R;
@@ -42,8 +44,27 @@ public class StoresFragment extends Fragment {
                              Bundle savedInstanceState) {
         View rootView = inflater.inflate(R.layout.fragment_stores, container, false);
         storesAdapter = new StoresAdapter(getActivity(),new ArrayList<Store>());
-        ListView merchantListView = (ListView)rootView.findViewById(R.id.stores_list);
-        merchantListView.setAdapter(storesAdapter);
+        ListView storesListView = (ListView)rootView.findViewById(R.id.stores_list);
+        storesListView.setAdapter(storesAdapter);
+
+        //open new details activity of each item:
+        storesListView.setOnItemClickListener(new AdapterView.OnItemClickListener(){
+            @Override
+            public void onItemClick(AdapterView<?> parent, View view, int position, long id) {
+
+                Store StoreClicked = (Store) parent.getItemAtPosition(position);
+                Intent intent = new Intent(getActivity(), StoreDetailsActivity.class);
+                //add things to display:
+                intent.putExtra("store_name", StoreClicked.getLegalName());
+                intent.putExtra("store_category", StoreClicked.getCategory());
+                intent.putExtra("store_address", StoreClicked.getAddress());
+                intent.putExtra("store_review", StoreClicked.getReview());
+
+
+                //begin new activity:
+                startActivity(intent);
+            }
+        });
 
         return rootView;
     }

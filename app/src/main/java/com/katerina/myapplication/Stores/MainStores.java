@@ -28,7 +28,6 @@ public class MainStores extends AppCompatActivity {
         //set custom title of this activity:
         String title = intent.getStringExtra("key_for_title");
         getSupportActionBar().setTitle(title);
-
     }
 
 
